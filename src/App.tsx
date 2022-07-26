@@ -3,7 +3,7 @@ import { BigNumber, ethers } from 'ethers';
 
 import logo from './logo.svg';
 import './App.css';
-import { calculateL1GasUsageForCallData, loadTxGasUsed } from './fees/calculator'
+import { calculateL1GasUsageForCallData, loadTxDetail } from './fees/calculator'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
@@ -27,8 +27,10 @@ function App() {
 
     if (searchFieldString.search('https://') === 0) {
       console.log('etherscan detect')
-      const l2GasUsed = await loadTxGasUsed(searchFieldString.replace('https://etherscan.io/tx/',''))
-      setL2GasUsage(l2GasUsed)
+      const txDetail = await loadTxDetail(searchFieldString.replace('https://etherscan.io/tx/',''))
+      setL2GasUsage(txDetail.gasUsed)
+      const l2GasUsage = calculateL1GasUsageForCallData(txDetail.data)
+      setL1GasUsageField(BigNumber.from(l2GasUsage))
 
     } else {
       console.log('payload detect')
