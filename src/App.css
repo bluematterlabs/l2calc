@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+.tx-fee-box {
+  width: 292px;
+  height: 28px;
+  margin: 14px;
+  padding: 22px;
+  border: solid;
+  border-radius: 15px
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
