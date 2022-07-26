@@ -49,6 +49,10 @@
   font-size: 19px;
 }
 
+.gas-saving {
+  color: #0bdb0b;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
