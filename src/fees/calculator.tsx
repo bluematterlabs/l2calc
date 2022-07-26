@@ -1,3 +1,5 @@
+import { ethers } from "ethers"
+
 const L1_OVERHEAD_GAS = 3188 // overhead + signature = (2100 + 68 * 16)
 
 function hexToBytes(hex: string) {
@@ -25,4 +27,14 @@ export const calculateL1GasUsageForCallData = (payload: string) => {
   const calldataGasUsage = (zeroCount * 4) + (nonZeroCount * 16)
   console.log({zeroCount, nonZeroCount, calldataGasUsage})
   return L1_OVERHEAD_GAS + calldataGasUsage
+}
+
+export const loadTxGasUsed = async (txHash: string) => {
+  const provider = new ethers.providers.JsonRpcProvider('https://cloudflare-eth.com')
+  console.log(provider)
+  console.log({blocknumber: await provider.getBlockNumber()})
+  console.log({txHash})
+  const txReceipt = await provider.getTransactionReceipt(txHash)
+  console.log({gasUsed: txReceipt.gasUsed.toString()})
+  return txReceipt.gasUsed
 }

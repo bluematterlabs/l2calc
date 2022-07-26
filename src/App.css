@@ -29,12 +29,24 @@
 }
 
 .tx-fee-box {
-  width: 292px;
+  width: 400px;
   height: 28px;
   margin: 14px;
   padding: 22px;
   border: solid;
   border-radius: 15px
+}
+
+.l1-detail-area {
+  margin: 18px;
+  line-height: 1.5;
+  font-size: 19px;
+}
+
+.l2-detail-area {
+  margin: 18px;
+  line-height: 1.5;
+  font-size: 19px;
 }
 
 @keyframes App-logo-spin {
