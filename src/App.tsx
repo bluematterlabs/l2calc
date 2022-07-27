@@ -103,7 +103,7 @@ function App() {
             <span>{l2GasUsage.toString()}</span>
           </div>
           <div>
-            <span>L2 Security Fee: </span>
+            <span>L2 Execution Fee: </span>
             <span>{ethers.utils.formatUnits(l2ExecutionFee, 'ether')} eth</span>
           </div>
         </div>
