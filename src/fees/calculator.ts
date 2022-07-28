@@ -1,4 +1,5 @@
 import { ethers } from "ethers"
+import { BASE_RPC } from '../config/constants'
 
 const L1_OVERHEAD_GAS = 3188 // overhead + signature = (2100 + 68 * 16)
 
@@ -30,7 +31,7 @@ export const calculateL1GasUsageForCallData = (payload: string) => {
 }
 
 export const loadTxDetail = async (txHash: string) => {
-  const provider = new ethers.providers.JsonRpcProvider('https://cloudflare-eth.com')
+  const provider = new ethers.providers.JsonRpcProvider(BASE_RPC)
   console.log({txHash})
   const latestBlockNumber = await provider.getBlockNumber()
   console.log({latestBlockNumber})

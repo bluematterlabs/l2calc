@@ -4,18 +4,32 @@ import { BigNumber, ethers } from 'ethers';
 import logo from './logo.svg';
 import './App.css';
 import { calculateL1GasUsageForCallData, loadTxDetail } from './fees/calculator'
+import { getL1GasPrice } from './fees/baseFee'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
-  const [l1GasPrice, setL1GasPrice] = useState(BigNumber.from('20000000000'))
+  const [l1GasPrice, setL1GasPrice] = useState(ethers.utils.parseUnits('20', 'gwei')) // 20 gwei
   const [l1SecurityFee, setL1SecurityFee] = useState(BigNumber.from(0))
 
   const [l2GasUsage, setL2GasUsage] = useState(BigNumber.from(0))
-  const [l2GasPrice, setL2GasPrice] = useState(BigNumber.from('1000000'))
+  const [l2GasPrice, setL2GasPrice] = useState(ethers.utils.parseUnits('0.001', 'gwei'))
   const [l2ExecutionFee, setL2ExecutionFee] = useState(BigNumber.from(0))
 
   const [legacyL1Fee, setLegacyL1Fee] = useState(BigNumber.from(0))
   const [gasSavingWorld, setGasSavingWorld] = useState('')
+
+  // Gas L1 gas price
+  useEffect(() => {
+    const fetchData = async () => {
+      const l1GasPrice = await getL1GasPrice()
+      console.log(`l1GasPrice: ${ethers.utils.formatUnits(l1GasPrice, 'gwei')} gwei`)
+      setL1GasPrice(l1GasPrice)
+    }
+    
+    fetchData()
+    // make sure to catch any error
+    .catch(console.error);
+  }, [])
 
   useEffect(() => {
     setL1SecurityFee(l1GasUsageField.mul(l1GasPrice))
