@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BigNumber, ethers } from 'ethers';
 
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 import { calculateL1GasUsageForCallData, loadTxDetail } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
@@ -78,7 +78,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>L2 Fee Calc</h1>
         <div>L2 Transaction Data / L1 Tx Hash</div>
         <textarea
           rows={4}
