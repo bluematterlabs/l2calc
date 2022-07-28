@@ -31,11 +31,17 @@ export const calculateL1GasUsageForCallData = (payload: string) => {
 
 export const loadTxDetail = async (txHash: string) => {
   const provider = new ethers.providers.JsonRpcProvider('https://cloudflare-eth.com')
-  console.log(provider)
-  console.log({blocknumber: await provider.getBlockNumber()})
   console.log({txHash})
-  const txReceipt = await provider.getTransactionReceipt(txHash)
-  const transaction = await provider.getTransaction(txHash)
+  const latestBlockNumber = await provider.getBlockNumber()
+  console.log({latestBlockNumber})
+  const latestBlock = await provider.getBlock(latestBlockNumber)
+  console.log({latestBlock})
+  console.log({baseFeePerGas: latestBlock.baseFeePerGas!.toString()})
+  
+  const [txReceipt, transaction] = await Promise.all([
+    provider.getTransactionReceipt(txHash),
+    provider.getTransaction(txHash)
+  ])
   console.log({txReceipt})
   console.log({transactionData: transaction.data})
   return {
