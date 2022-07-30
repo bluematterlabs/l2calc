@@ -5,6 +5,7 @@ import logo from './logo.png';
 import './App.css';
 import { calculateL1GasUsageForCallData, loadTxDetail } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
+import { inputParser, InputType } from './helpers/inputParser'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
@@ -53,11 +54,12 @@ function App() {
   }, [legacyL1Fee, l1SecurityFee, l2ExecutionFee])
 
   const onSearchChange = async (event: any) => {
-    const searchFieldString = event.target.value.toLocaleLowerCase()
+    const inputTxt = event.target.value.toLocaleLowerCase()
 
-    if (searchFieldString.search('https://') === 0) {
-      console.log('etherscan detect')
-      const txDetail = await loadTxDetail(searchFieldString.replace('https://etherscan.io/tx/',''))
+    const inputDetail = inputParser(inputTxt)
+
+    if (inputDetail.inputType === InputType.EtherscanTx) {
+      const txDetail = await loadTxDetail(inputDetail.txHash)
 
       setL2GasUsage(txDetail.gasUsed)
       const l1GasUsage = calculateL1GasUsageForCallData(txDetail.data)
@@ -66,9 +68,8 @@ function App() {
       setLegacyL1Fee(BigNumber.from(txDetail.gasUsed).mul(l1GasPrice))
 
     } else {
-      console.log('payload detect')
       setGasSavingWorld('')
-      const l1GasUsage = calculateL1GasUsageForCallData(searchFieldString)
+      const l1GasUsage = calculateL1GasUsageForCallData(inputTxt)
       console.log({l1GasUsage})
       setL1GasUsageField(BigNumber.from(l1GasUsage))
     }
