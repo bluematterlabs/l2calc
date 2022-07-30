@@ -1,6 +1,7 @@
 
 export enum InputType {
   EtherscanTx,
+  OptimisticEtherscanTx,
   DataPayload
 }
 
@@ -17,6 +18,13 @@ export const inputParser = (txt: string): InputDetail => {
       inputType: InputType.EtherscanTx,
       chainId: 1,
       txHash: txt.replace('https://etherscan.io/tx/','')
+    }
+  } else if (txt.search('https://optimistic.etherscan.io/tx/') === 0) {
+    console.log('optimistic.etherscan tx detect')
+    return {
+      inputType: InputType.OptimisticEtherscanTx,
+      chainId: 10,
+      txHash: txt.replace('https://optimistic.etherscan.io/tx/','')
     }
   } else {
     console.log('l2 data payload detect')

@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import { BASE_RPC } from '../config/constants'
+import { BASE_RPC, OPTIMISM_RPC } from '../config/constants'
 
 const L1_OVERHEAD_GAS = 3188 // overhead + signature = (2100 + 68 * 16)
 
@@ -32,6 +32,22 @@ export const calculateL1GasUsageForCallData = (payload: string) => {
 
 export const loadTxDetail = async (txHash: string) => {
   const provider = new ethers.providers.JsonRpcProvider(BASE_RPC)
+  console.log({txHash})
+  
+  const [txReceipt, transaction] = await Promise.all([
+    provider.getTransactionReceipt(txHash),
+    provider.getTransaction(txHash)
+  ])
+  console.log({txReceipt})
+  console.log({transactionData: transaction.data})
+  return {
+    data: transaction.data,
+    gasUsed: txReceipt.gasUsed
+  }
+}
+
+export const loadL2TxDetail = async (txHash: string) => {
+  const provider = new ethers.providers.JsonRpcProvider(OPTIMISM_RPC)
   console.log({txHash})
   
   const [txReceipt, transaction] = await Promise.all([

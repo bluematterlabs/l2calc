@@ -3,7 +3,7 @@ import { BigNumber, ethers } from 'ethers';
 
 import logo from './logo.png';
 import './App.css';
-import { calculateL1GasUsageForCallData, loadTxDetail } from './fees/calculator'
+import { calculateL1GasUsageForCallData, loadTxDetail, loadL2TxDetail } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
 
@@ -58,8 +58,16 @@ function App() {
 
     const inputDetail = inputParser(inputTxt)
 
-    if (inputDetail.inputType === InputType.EtherscanTx) {
-      const txDetail = await loadTxDetail(inputDetail.txHash)
+    if (
+      inputDetail.inputType === InputType.EtherscanTx ||
+      inputDetail.inputType === InputType.OptimisticEtherscanTx
+    ) {
+      let txDetail
+      if (inputDetail.inputType === InputType.EtherscanTx) {
+        txDetail = await loadTxDetail(inputDetail.txHash)
+      } else {
+        txDetail = await loadL2TxDetail(inputDetail.txHash)
+      }
 
       setL2GasUsage(txDetail.gasUsed)
       const l1GasUsage = calculateL1GasUsageForCallData(txDetail.data)
