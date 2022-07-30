@@ -56,15 +56,23 @@ function App() {
   const onSearchChange = async (event: any) => {
     const inputTxt = event.target.value.toLocaleLowerCase()
 
-    const inputDetail = inputParser(inputTxt)
+    const inputDetail = await inputParser(inputTxt.trim())
 
     if (
       inputDetail.inputType === InputType.EtherscanTx ||
-      inputDetail.inputType === InputType.OptimisticEtherscanTx
+      inputDetail.inputType === InputType.OptimisticEtherscanTx ||
+      inputDetail.inputType === InputType.txHash
     ) {
       let txDetail
       if (inputDetail.inputType === InputType.EtherscanTx) {
         txDetail = await loadTxDetail(inputDetail.txHash)
+      } else if (inputDetail.inputType === InputType.txHash) {
+        if (inputDetail.chainId === 1) {
+          txDetail = await loadTxDetail(inputDetail.txHash)
+        } else {
+          txDetail = await loadL2TxDetail(inputDetail.txHash)
+        }
+
       } else {
         txDetail = await loadL2TxDetail(inputDetail.txHash)
       }
