@@ -1,17 +1,17 @@
-import { ethers } from 'ethers';
+import { ethers } from 'ethers'
 import { BASE_RPC, OPTIMISM_RPC } from '../config/constants'
 
 export enum InputType {
   EtherscanTx,
   OptimisticEtherscanTx,
   DataPayload,
-  txHash
+  txHash,
 }
 
 export type InputDetail = {
-  inputType: InputType;
-  chainId: number;
-  txHash: string;
+  inputType: InputType
+  chainId: number
+  txHash: string
 }
 
 export const inputParser = async (txt: string): Promise<InputDetail> => {
@@ -20,16 +20,16 @@ export const inputParser = async (txt: string): Promise<InputDetail> => {
     return {
       inputType: InputType.EtherscanTx,
       chainId: 1,
-      txHash: txt.replace('https://etherscan.io/tx/','')
+      txHash: txt.replace('https://etherscan.io/tx/', ''),
     }
   } else if (txt.search('https://optimistic.etherscan.io/tx/') === 0) {
     console.log('optimistic.etherscan tx detect')
     return {
       inputType: InputType.OptimisticEtherscanTx,
       chainId: 10,
-      txHash: txt.replace('https://optimistic.etherscan.io/tx/','')
+      txHash: txt.replace('https://optimistic.etherscan.io/tx/', ''),
     }
-  } else if (txt.search('0x') === 0 &&  txt.length === 66) {
+  } else if (txt.search('0x') === 0 && txt.length === 66) {
     console.log('tx hash detect')
     console.log(txt.length)
     const txHash = txt
@@ -37,7 +37,7 @@ export const inputParser = async (txt: string): Promise<InputDetail> => {
     const optimismProvider = new ethers.providers.JsonRpcProvider(OPTIMISM_RPC)
     const [l1Tx, optimismTx] = await Promise.all([
       l1Provider.getTransaction(txHash),
-      optimismProvider.getTransaction(txHash)
+      optimismProvider.getTransaction(txHash),
     ])
     console.log({
       l1Tx,
@@ -49,15 +49,14 @@ export const inputParser = async (txt: string): Promise<InputDetail> => {
     return {
       inputType: InputType.txHash,
       chainId: l1Tx !== null ? 1 : 10,
-      txHash: txHash
+      txHash: txHash,
     }
-
   } else {
     console.log('l2 data payload detect')
     return {
       inputType: InputType.DataPayload,
       chainId: 1,
-      txHash: ''
+      txHash: '',
     }
   }
 }
