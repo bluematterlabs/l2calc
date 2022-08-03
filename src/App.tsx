@@ -133,7 +133,7 @@ function App() {
               Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
               ETH
             </span>
-            <span className="font-medium ml-1 text-white/60">
+            <span className="text-lg font-medium ml-1 text-white/60">
               ($
               <EthPriceInUsd wei={l1SecurityFee.add(l2ExecutionFee)} />)
             </span>

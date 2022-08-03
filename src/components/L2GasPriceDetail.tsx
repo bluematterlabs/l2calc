@@ -67,7 +67,7 @@ const MainRow: React.FC<{ label: string; children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <div className="flex font-semibold text-lg -ml-4 text-white/80">
+    <div className="flex font-semibold -ml-4 text-white/80">
       <div className="flex items-center">
         <div className="p-1 bg-theme-400">
           <BsFillPlusCircleFill className="text-theme-300" />
