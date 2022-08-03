@@ -12,6 +12,7 @@ import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
 import L2GasPriceDetail from './components/L2GasPriceDetail'
 import { formatEth } from './helpers/format'
+import EthPriceInUsd from './components/EthPriceInUsd'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
@@ -113,7 +114,7 @@ function App() {
           <img src={logo} alt="l2calc logo" />
         </div>
 
-        <div className="bg-white py-16 px-24 rounded-md shadow-xl shadow-zinc-200/40">
+        <div className="bg-white py-16 px-24 rounded-md shadow-lg shadow-zinc-200/40">
           <div>L2 Transaction Data / L1 Tx Hash</div>
           <textarea
             rows={4}
@@ -128,18 +129,24 @@ function App() {
           </div>
 
           <div
-            className="z-50 relative p-4 text-center text-xl rounded-sm mt-4 font-medium border-b-4 border-white"
+            className="z-50 relative p-4 mt-4 text-center rounded-sm border-b-4 border-white"
             style={{
               backgroundImage:
                 'radial-gradient( circle farthest-corner at 92.3% 71.5%,  #aecaeb 0%, #c5f3eb 90% )',
             }}
           >
-            Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
-            ETH
+            <span className="text-lg font-medium text-slate-800">
+              Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
+              ETH
+            </span>
+            <span className="font-medium ml-1 text-slate-600">
+              ($
+              <EthPriceInUsd wei={l1SecurityFee.add(l2ExecutionFee)} />)
+            </span>
           </div>
 
-          <div className="text-center h-10 mt-2 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#5cd2bd] to-[#2c63ae]">
-            {gasSavingWorld}% gas saving
+          <div className="z-50 relative text-center h-10 mt-2 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#5cd2bd] to-[#2c63ae]">
+            {gasSavingWorld || '...'}% gas saving
           </div>
 
           <L2GasPriceDetail
