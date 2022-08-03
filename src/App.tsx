@@ -114,7 +114,7 @@ function App() {
           <img src={logo} alt="l2calc logo" />
         </div>
 
-        <div className="bg-white py-16 px-24 rounded-md shadow-lg shadow-zinc-200/40">
+        <div className="bg-white py-16 px-8 md:px-16 lg:px-24 md:rounded-md shadow-lg shadow-zinc-200/40">
           <div>L2 Transaction Data / L1 Tx Hash</div>
           <textarea
             rows={4}
@@ -145,8 +145,11 @@ function App() {
             </span>
           </div>
 
-          <div className="z-50 relative text-center h-10 mt-2 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#5cd2bd] to-[#2c63ae]">
+          <div className="z-50 relative text-center mt-2 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#5cd2bd] to-[#2c63ae]">
             {gasSavingWorld || '...'}% gas saving
+            <div className="text-xs font-light">
+              if you send the same transaction in L2 instead of L1
+            </div>
           </div>
 
           <L2GasPriceDetail
