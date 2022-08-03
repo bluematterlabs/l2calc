@@ -109,46 +109,40 @@ function App() {
 
   return (
     <div>
-      <div className="container mx-auto flex flex-col items-center">
+      <div className="container mx-auto flex flex-col items-center text-white">
         <div className="w-60">
           <img src={logo} alt="l2calc logo" />
         </div>
 
-        <div className="bg-white py-16 px-8 md:px-16 lg:px-24 md:rounded-md shadow-lg shadow-zinc-200/40">
-          <div>L2 Transaction Data / L1 Tx Hash</div>
+        <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
+          <div className="text-sm my-1">L2 Transaction Data / L1 Tx Hash</div>
           <textarea
             rows={4}
             cols={53}
             placeholder={`0x...`}
             onChange={onSearchChange}
-            className="w-full h-32 px-4 py-2 mb-2 text-sm text-gray-700 placeholder-gray-600 border-2 rounded-lg focus:shadow-outline"
+            className="w-full h-32 px-4 py-2 text-sm bg-theme-300 text-white/90 placeholder-white/50 border-2 rounded-lg focus:shadow-outline"
           />
 
-          <div className="flex justify-center">
-            <BsFillArrowDownCircleFill className="text-xl text-[#b8dceb]" />
+          <div className="flex justify-center mt-2">
+            <BsFillArrowDownCircleFill className="text-xl text-white/40" />
           </div>
 
-          <div
-            className="z-50 relative p-4 mt-4 text-center rounded-sm border-b-4 border-white"
-            style={{
-              backgroundImage:
-                'radial-gradient( circle farthest-corner at 92.3% 71.5%,  #aecaeb 0%, #c5f3eb 90% )',
-            }}
-          >
-            <span className="text-lg font-medium text-slate-800">
+          <div className="z-50 relative p-4 mt-4 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
+            <span className="text-lg font-semibold text-white">
               Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
               ETH
             </span>
-            <span className="font-medium ml-1 text-slate-600">
+            <span className="font-medium ml-1 text-white/60">
               ($
               <EthPriceInUsd wei={l1SecurityFee.add(l2ExecutionFee)} />)
             </span>
           </div>
 
-          <div className="z-50 relative text-center mt-2 font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#5cd2bd] to-[#2c63ae]">
+          <div className="z-50 relative text-center mt-2 font-bold text-xl text-green-400">
             {gasSavingWorld || '...'}% gas saving
             <div className="text-xs font-light">
-              if you send the same transaction in L2 instead of L1
+              If you send the same transaction on L2 instead of L1
             </div>
           </div>
 

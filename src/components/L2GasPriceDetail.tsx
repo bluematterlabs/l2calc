@@ -22,12 +22,12 @@ const L2GasPriceDetail: React.FC<Props> = ({
   l2ExecutionFee,
 }) => {
   return (
-    <div className="z-0 relative border-l-4 border-[#c6f3eb] ml-4 pt-24 -mt-16">
+    <div className="z-0 relative border-l-4 border-theme-300 ml-4 pt-24 -mt-16">
       {/* L1 calldata gas used */}
       <div className="">
         <MainRow label="L1 Security Fee:">
           {formatEth(l1SecurityFee, 9)} ETH{' '}
-          <span className="text-slate-400 font-medium">
+          <span className="text-white/50 font-medium">
             ($
             <EthPriceInUsd wei={l1SecurityFee} />)
           </span>
@@ -46,7 +46,7 @@ const L2GasPriceDetail: React.FC<Props> = ({
       <div className="mt-4">
         <MainRow label="L2 Execution Fee:">
           {formatEth(l2ExecutionFee, 9)} ETH{' '}
-          <span className="text-slate-400 font-medium">
+          <span className="text-white/50 font-medium">
             ($
             <EthPriceInUsd wei={l2ExecutionFee} />)
           </span>
@@ -67,10 +67,10 @@ const MainRow: React.FC<{ label: string; children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <div className="flex font-semibold text-lg -ml-4 text-slate-700">
+    <div className="flex font-semibold text-lg -ml-4 text-white/80">
       <div className="flex items-center">
-        <div className="p-1 bg-white">
-          <BsFillPlusCircleFill className="text-[#5cd2bd]" />
+        <div className="p-1 bg-theme-400">
+          <BsFillPlusCircleFill className="text-theme-300" />
         </div>
 
         <div className="ml-2">{label} </div>
@@ -85,7 +85,7 @@ const DetailedRow: React.FC<{ label: string; value: string }> = ({
   value,
 }) => {
   return (
-    <div className="flex ml-8 text-slate-600">
+    <div className="flex ml-8 text-white/60">
       <div className="">{label}</div>
       <div className="ml-6">{value}</div>
     </div>
