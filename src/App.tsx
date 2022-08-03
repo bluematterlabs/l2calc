@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BigNumber, ethers } from 'ethers';
 
-import logo from './logo.png';
-import './App.css';
+import logo from './img/logo.png';
 import { calculateL1GasUsageForCallData, loadTxDetail, loadL2TxDetail } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
@@ -92,53 +91,55 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div>L2 Transaction Data / L1 Tx Hash</div>
-        <textarea
-          rows={4}
-          cols={53}
-          className={`search-box-a`}
-          placeholder={`0x...`}
-          onChange={onSearchChange}
-        />
-        <div className='tx-fee-box'>
-          Tx Fee: {ethers.utils.formatUnits(l1SecurityFee.add(l2ExecutionFee), 'ether')} eth
-        </div>
-        <div className='gas-saving'>
-          {gasSavingWorld}
-        </div>
-        <div className='l1-detail-area'>
-          <div>
-            <span>L1 Gas Price: </span>
-            <span>{ethers.utils.formatUnits(l1GasPrice, 'gwei')} Gwei</span>
+    <div className="h-screen">
+      <div className="container mx-auto text-white flex justify-center">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <div>L2 Transaction Data / L1 Tx Hash</div>
+          <textarea
+            rows={4}
+            cols={53}
+            className={`search-box-a`}
+            placeholder={`0x...`}
+            onChange={onSearchChange}
+          />
+          <div className='tx-fee-box'>
+            Tx Fee: {ethers.utils.formatUnits(l1SecurityFee.add(l2ExecutionFee), 'ether')} eth
           </div>
-          <div>
-            <span>L1 Gas Used: </span>
-            <span>{l1GasUsageField.toString()}</span>
+          <div className='gas-saving'>
+            {gasSavingWorld}
           </div>
-          <div>
-            <span>L1 Security Fee: </span>
-            <span>{ethers.utils.formatUnits(l1SecurityFee, 'ether')} eth</span>
+          <div className='l1-detail-area'>
+            <div>
+              <span>L1 Gas Price: </span>
+              <span>{ethers.utils.formatUnits(l1GasPrice, 'gwei')} Gwei</span>
+            </div>
+            <div>
+              <span>L1 Gas Used: </span>
+              <span>{l1GasUsageField.toString()}</span>
+            </div>
+            <div>
+              <span>L1 Security Fee: </span>
+              <span>{ethers.utils.formatUnits(l1SecurityFee, 'ether')} eth</span>
+            </div>
           </div>
-        </div>
-        <div className='l2-detail-area'>
-          <div>
-            <span>L2 Gas Price: </span>
-            <span>{ethers.utils.formatUnits(l2GasPrice, 'gwei')} Gwei</span>
+          <div className='l2-detail-area'>
+            <div>
+              <span>L2 Gas Price: </span>
+              <span>{ethers.utils.formatUnits(l2GasPrice, 'gwei')} Gwei</span>
+            </div>
+            <div>
+              <span>L2 Gas Used: </span>
+              <span>{l2GasUsage.toString()}</span>
+            </div>
+            <div>
+              <span>L2 Execution Fee: </span>
+              <span>{ethers.utils.formatUnits(l2ExecutionFee, 'ether')} eth</span>
+            </div>
           </div>
-          <div>
-            <span>L2 Gas Used: </span>
-            <span>{l2GasUsage.toString()}</span>
-          </div>
-          <div>
-            <span>L2 Execution Fee: </span>
-            <span>{ethers.utils.formatUnits(l2ExecutionFee, 'ether')} eth</span>
-          </div>
-        </div>
-        
-      </header>
+          
+        </header>
+      </div>
     </div>
   );
 }
