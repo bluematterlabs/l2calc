@@ -11,6 +11,7 @@ import {
 import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
 import L2GasPriceDetail from './components/L2GasPriceDetail'
+import { formatEth } from './helpers/format'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
@@ -127,17 +128,13 @@ function App() {
           </div>
 
           <div
-            className="z-50 p-4 text-center text-xl rounded-sm mt-4 font-medium"
+            className="z-50 relative p-4 text-center text-xl rounded-sm mt-4 font-medium border-b-4 border-white"
             style={{
               backgroundImage:
-                'radial-gradient( circle farthest-corner at 92.3% 71.5%,  #538ad67f 0%, #86e7d67f 90% )',
+                'radial-gradient( circle farthest-corner at 92.3% 71.5%,  #aecaeb 0%, #c5f3eb 90% )',
             }}
           >
-            Rollups Tx Fee:{' '}
-            {ethers.utils.formatUnits(
-              l1SecurityFee.add(l2ExecutionFee),
-              'ether',
-            )}{' '}
+            Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
             ETH
           </div>
 

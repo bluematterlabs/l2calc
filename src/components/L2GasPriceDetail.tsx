@@ -1,5 +1,6 @@
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber } from 'ethers'
 import { BsFillPlusCircleFill } from 'react-icons/bs'
+import { formatEth, formatGwei } from '../helpers/format'
 
 type Props = {
   l1GasPrice: BigNumber
@@ -19,16 +20,16 @@ const L2GasPriceDetail: React.FC<Props> = ({
   l2ExecutionFee,
 }) => {
   return (
-    <div className="z-0 border-l-4 border-[#c6f3eb] ml-4 pt-24 -mt-16">
+    <div className="z-0 relative border-l-4 border-[#c6f3eb] ml-4 pt-24 -mt-16">
       {/* L1 calldata gas used */}
       <div className="">
         <MainRow
           label={'L1 Security Fee:'}
-          value={`${ethers.utils.formatUnits(l1SecurityFee, 'ether')} ETH`}
+          value={`${formatEth(l1SecurityFee, 9)} ETH`}
         />
         <DetailedRow
           label="• L1 Gas Price:"
-          value={`${ethers.utils.formatUnits(l1GasPrice, 'gwei')} gwei`}
+          value={`${formatGwei(l1GasPrice, 5)} gwei`}
         />
         <DetailedRow
           label="• L1 Gas Used:"
@@ -40,11 +41,11 @@ const L2GasPriceDetail: React.FC<Props> = ({
       <div className="mt-4">
         <MainRow
           label="L2 Execution Fee:"
-          value={`${ethers.utils.formatUnits(l2ExecutionFee, 'ether')} ETH`}
+          value={`${formatEth(l2ExecutionFee, 9)} ETH`}
         />
         <DetailedRow
           label="• L2 Gas Price:"
-          value={`${ethers.utils.formatUnits(l2GasPrice, 'gwei')} gwei`}
+          value={`${formatGwei(l2GasPrice, 6)} gwei`}
         />
         <DetailedRow label="• L2 Gas Used:" value={l2GasUsage.toString()} />
       </div>
@@ -75,7 +76,7 @@ const DetailedRow: React.FC<{ label: string; value: string }> = ({
   value,
 }) => {
   return (
-    <div className="flex ml-10">
+    <div className="flex ml-8">
       <div className="">{label}</div>
       <div className="ml-6">{value}</div>
     </div>
