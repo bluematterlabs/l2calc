@@ -13,6 +13,7 @@ import { inputParser, InputType } from './helpers/inputParser'
 import L2GasPriceDetail from './components/L2GasPriceDetail'
 import { formatEth } from './helpers/format'
 import EthPriceInUsd from './components/EthPriceInUsd'
+import Footer from './components/Footer'
 
 function App() {
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
@@ -156,11 +157,8 @@ function App() {
           />
         </div>
 
-        {/* footer */}
         <div className="pt-8 pb-6">
-          <div className="text-sm font-bold text-white/70">
-            Made with 💙 by <a href="https://bluesweep.xyz">bluesweep.xyz</a>
-          </div>
+          <Footer />
         </div>
       </div>
     </div>
