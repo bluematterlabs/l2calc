@@ -116,11 +116,17 @@ function App() {
         </div>
 
         <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
-          <div className="text-sm my-1">L2 Transaction Data / L1 Tx Hash</div>
+          <div className="text-sm my-1">
+            Transaction Data / Tx Hash / Etherscan Tx Url
+          </div>
           <textarea
             rows={4}
             cols={53}
-            placeholder={`0x...`}
+            placeholder={`0xa9059cbb0000000000000000000000000abcdefabcde...
+or
+https://etherscan.io/tx/0xe8d0375ab738886f...
+or
+https://optimistic.etherscan.io/tx/0x46627515d962bab6...`}
             onChange={onSearchChange}
             className="w-full h-32 px-4 py-2 text-sm bg-theme-300 text-white/90 placeholder-white/50 border-2 rounded-lg focus:shadow-outline"
           />
