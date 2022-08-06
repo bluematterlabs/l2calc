@@ -10,6 +10,7 @@ import {
 } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
+import { DEFAULT_L2_GAS_USAGE } from './config/constants'
 import L2GasPriceDetail from './components/L2GasPriceDetail'
 import { formatEth } from './helpers/format'
 import EthPriceInUsd from './components/EthPriceInUsd'
@@ -83,14 +84,19 @@ function App() {
       inputDetail.inputType === InputType.txHash
     ) {
       let txDetail
+      // Etherscan tx url
       if (inputDetail.inputType === InputType.EtherscanTx) {
         txDetail = await loadTxDetail(inputDetail.txHash)
+
+        // Tx hash
       } else if (inputDetail.inputType === InputType.txHash) {
         if (inputDetail.chainId === 1) {
           txDetail = await loadTxDetail(inputDetail.txHash)
         } else {
           txDetail = await loadL2TxDetail(inputDetail.txHash)
         }
+
+        // Optimistic Etherscan tx url
       } else {
         txDetail = await loadL2TxDetail(inputDetail.txHash)
       }
@@ -100,11 +106,16 @@ function App() {
       setL1GasUsageField(BigNumber.from(l1GasUsage))
 
       setLegacyL1Fee(BigNumber.from(txDetail.gasUsed).mul(l1GasPrice))
+
+      // Raw Transaction Data
     } else {
-      setGasSavingWorld('')
+      const l2GasUsage = BigNumber.from(DEFAULT_L2_GAS_USAGE)
+
+      setL2GasUsage(l2GasUsage)
       const l1GasUsage = calculateL1GasUsageForCallData(inputTxt)
-      console.log({ l1GasUsage })
       setL1GasUsageField(BigNumber.from(l1GasUsage))
+
+      setLegacyL1Fee(BigNumber.from(l2GasUsage).mul(l1GasPrice))
     }
   }
 
