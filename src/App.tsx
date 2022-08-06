@@ -10,6 +10,7 @@ import {
 } from './fees/calculator'
 import { getL1GasPrice } from './fees/baseFee'
 import { inputParser, InputType } from './helpers/inputParser'
+import { DEFAULT_L2_GAS_USAGE } from './config/constants'
 import L2GasPriceDetail from './components/L2GasPriceDetail'
 import { formatEth } from './helpers/format'
 import EthPriceInUsd from './components/EthPriceInUsd'
@@ -83,14 +84,19 @@ function App() {
       inputDetail.inputType === InputType.txHash
     ) {
       let txDetail
+      // Etherscan tx url
       if (inputDetail.inputType === InputType.EtherscanTx) {
         txDetail = await loadTxDetail(inputDetail.txHash)
+
+        // Tx hash
       } else if (inputDetail.inputType === InputType.txHash) {
         if (inputDetail.chainId === 1) {
           txDetail = await loadTxDetail(inputDetail.txHash)
         } else {
           txDetail = await loadL2TxDetail(inputDetail.txHash)
         }
+
+        // Optimistic Etherscan tx url
       } else {
         txDetail = await loadL2TxDetail(inputDetail.txHash)
       }
@@ -100,11 +106,16 @@ function App() {
       setL1GasUsageField(BigNumber.from(l1GasUsage))
 
       setLegacyL1Fee(BigNumber.from(txDetail.gasUsed).mul(l1GasPrice))
+
+      // Raw Transaction Data
     } else {
-      setGasSavingWorld('')
+      const l2GasUsage = BigNumber.from(DEFAULT_L2_GAS_USAGE)
+
+      setL2GasUsage(l2GasUsage)
       const l1GasUsage = calculateL1GasUsageForCallData(inputTxt)
-      console.log({ l1GasUsage })
       setL1GasUsageField(BigNumber.from(l1GasUsage))
+
+      setLegacyL1Fee(BigNumber.from(l2GasUsage).mul(l1GasPrice))
     }
   }
 
@@ -116,11 +127,17 @@ function App() {
         </div>
 
         <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
-          <div className="text-sm my-1">L2 Transaction Data / L1 Tx Hash</div>
+          <div className="text-sm my-1">
+            Transaction Data / Tx Hash / Etherscan Tx Url
+          </div>
           <textarea
             rows={4}
             cols={53}
-            placeholder={`0x...`}
+            placeholder={`0xa9059cbb0000000000000000000000000abcdefabcde...
+or
+https://etherscan.io/tx/0xe8d0375ab738886f...
+or
+https://optimistic.etherscan.io/tx/0x46627515d962bab6...`}
             onChange={onSearchChange}
             className="w-full h-32 px-4 py-2 text-sm bg-theme-300 text-white/90 placeholder-white/50 border-2 rounded-lg focus:shadow-outline"
           />
