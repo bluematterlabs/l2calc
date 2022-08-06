@@ -148,7 +148,7 @@ https://optimistic.etherscan.io/tx/0x46627515d962bab6...`}
 
           <div className="z-50 relative p-4 mt-4 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
             <span className="text-lg font-semibold text-white">
-              Rollups Tx Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
+              Transaction Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
               ETH
             </span>
             <span className="text-lg font-medium ml-1 text-white/60">
