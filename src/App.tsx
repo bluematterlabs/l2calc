@@ -16,6 +16,7 @@ import { formatEth } from './helpers/format'
 import EthPriceInUsd from './components/EthPriceInUsd'
 import Footer from './components/Footer'
 import TrySampleTx from './components/TrySampleTx'
+import TooltipContainer from './components/TooltipContainer'
 
 function App() {
   const [searchInput, setSearchInput] = useState('')
@@ -32,7 +33,7 @@ function App() {
   const [l2ExecutionFee, setL2ExecutionFee] = useState(BigNumber.from(0))
 
   const [legacyL1Fee, setLegacyL1Fee] = useState(BigNumber.from(0))
-  const [gasSavingWorld, setGasSavingWorld] = useState('')
+  const [gasSaving, setGasSaving] = useState('')
 
   // Gas L1 gas price
   useEffect(() => {
@@ -60,7 +61,7 @@ function App() {
   // Gas saving
   useEffect(() => {
     if (legacyL1Fee.toNumber() === 0 || l2ExecutionFee.toNumber() === 0) {
-      setGasSavingWorld('')
+      setGasSaving('')
     } else {
       const scalingSolutionTxFee = l1SecurityFee.add(l2ExecutionFee)
       console.log({
@@ -71,7 +72,7 @@ function App() {
         .sub(scalingSolutionTxFee)
         .mul(100)
         .div(legacyL1Fee)
-      setGasSavingWorld(`${saving}`)
+      setGasSaving(`${saving}`)
     }
   }, [legacyL1Fee, l1SecurityFee, l2ExecutionFee])
 
@@ -134,7 +135,9 @@ function App() {
         </div>
 
         <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
-          <div className="text-sm my-1">Transaction Data / Tx Hash</div>
+          <div className="text-sm my-1">
+            Transaction Data / Transaction Hash
+          </div>
 
           <textarea
             rows={4}
@@ -159,22 +162,33 @@ https://optimistic.etherscan.io/tx/0x46627515d962bab6...`}
             <BsFillArrowDownCircleFill className="text-xl text-white/40" />
           </div>
 
-          <div className="z-50 relative p-4 mt-8 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
-            <span className="text-lg font-semibold text-white">
-              Transaction Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
-              ETH
-            </span>
-            <span className="text-lg font-medium ml-1 text-white/60">
-              ($
-              <EthPriceInUsd wei={l1SecurityFee.add(l2ExecutionFee)} />)
-            </span>
+          <div className="z-20 relative p-4 mt-8 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
+            <TooltipContainer message="Transaction cost estimate when using Ethereum L2 scaling solutions">
+              <span className="text-lg font-semibold text-white">
+                Transaction Fee:{' '}
+                {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)} ETH
+              </span>
+              <span className="text-lg font-medium ml-1 text-white/60">
+                ($
+                <EthPriceInUsd wei={l1SecurityFee.add(l2ExecutionFee)} />)
+              </span>
+            </TooltipContainer>
           </div>
 
-          <div className="z-50 relative text-center mt-2 font-bold text-xl text-green-400">
-            {gasSavingWorld || '...'}% gas saving
-            <div className="text-xs font-light">
-              If you send the same transaction on L2 instead of L1
-            </div>
+          <div className="z-20 relative text-center mt-2 font-bold text-xl text-green-400">
+            <TooltipContainer
+              message={
+                <>
+                  Compare to normal transaction cost on Ethereum ($
+                  <EthPriceInUsd wei={legacyL1Fee} />)
+                </>
+              }
+            >
+              {gasSaving || '...'}% gas saving
+              <div className="text-xs font-light">
+                If you send the same transaction on L2 instead of L1
+              </div>
+            </TooltipContainer>
           </div>
 
           <L2GasPriceDetail
