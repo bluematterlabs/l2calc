@@ -15,8 +15,10 @@ import L2GasPriceDetail from './components/L2GasPriceDetail'
 import { formatEth } from './helpers/format'
 import EthPriceInUsd from './components/EthPriceInUsd'
 import Footer from './components/Footer'
+import TrySampleTx from './components/TrySampleTx'
 
 function App() {
+  const [searchInput, setSearchInput] = useState('')
   const [l1GasUsageField, setL1GasUsageField] = useState(BigNumber.from(0))
   const [l1GasPrice, setL1GasPrice] = useState(
     ethers.utils.parseUnits('20', 'gwei'),
@@ -73,8 +75,9 @@ function App() {
     }
   }, [legacyL1Fee, l1SecurityFee, l2ExecutionFee])
 
-  const onSearchChange = async (event: any) => {
-    const inputTxt = event.target.value.toLocaleLowerCase()
+  const onSearchChange = async (searchValue: string) => {
+    setSearchInput(searchValue)
+    const inputTxt = searchValue.toLocaleLowerCase()
 
     const inputDetail = await inputParser(inputTxt.trim())
 
@@ -127,9 +130,8 @@ function App() {
         </div>
 
         <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
-          <div className="text-sm my-1">
-            Transaction Data / Tx Hash / Etherscan Tx Url
-          </div>
+          <div className="text-sm my-1">Transaction Data / Tx Hash</div>
+
           <textarea
             rows={4}
             cols={53}
@@ -138,15 +140,22 @@ or
 https://etherscan.io/tx/0xe8d0375ab738886f...
 or
 https://optimistic.etherscan.io/tx/0x46627515d962bab6...`}
-            onChange={onSearchChange}
+            value={searchInput}
+            onChange={(e) => {
+              onSearchChange(e.target.value)
+            }}
             className="w-full h-32 px-4 py-2 text-sm bg-theme-300 text-white/90 placeholder-white/50 border-2 rounded-lg focus:shadow-outline"
           />
 
-          <div className="flex justify-center mt-2">
+          <div>
+            <TrySampleTx onSetTxInput={(input) => onSearchChange(input)} />
+          </div>
+
+          <div className="flex justify-center mt-8">
             <BsFillArrowDownCircleFill className="text-xl text-white/40" />
           </div>
 
-          <div className="z-50 relative p-4 mt-4 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
+          <div className="z-50 relative p-4 mt-8 text-center rounded-sm border-b-4 border-theme-400 bg-theme-300">
             <span className="text-lg font-semibold text-white">
               Transaction Fee: {formatEth(l1SecurityFee.add(l2ExecutionFee), 9)}{' '}
               ETH
