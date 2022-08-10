@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { BigNumber, ethers } from 'ethers'
 import { BsFillArrowDownCircleFill } from 'react-icons/bs'
 
-import logo from './img/logo.png'
+import logoL2calc from './img/logo-l2calc.png'
 import {
   calculateL1GasUsageForCallData,
   loadTxDetail,
@@ -126,7 +126,11 @@ function App() {
     <div>
       <div className="container mx-auto flex flex-col items-center text-white">
         <div className="w-60">
-          <img src={logo} alt="l2calc logo" />
+          <img src={logoL2calc} alt="l2calc logo" />
+        </div>
+        <div className="text-center -mt-6 mb-2">
+          <div className="text-lg font-semibold">L2Calc</div>
+          Transaction cost calculator for Ethereum L2 scaling solutions
         </div>
 
         <div className="bg-theme-400 pt-12 pb-16 px-8 md:px-16 lg:px-24 md:rounded-sm">
